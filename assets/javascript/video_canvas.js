@@ -105,7 +105,7 @@ initializeCanvas = () => {
     v = document.getElementById("myVideo");
     c = document.getElementById("myCanvas");
     canvasContainer = document.getElementById("canvasContainer");
-    vc = document.getElementById("videoControllers");
+    //vc = document.getElementById("videoControllers");
     ctx = c.getContext("2d");
 }
 
