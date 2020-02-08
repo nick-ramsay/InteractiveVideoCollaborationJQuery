@@ -129,7 +129,7 @@ renderVideo = () => {
     var hratio = (c.width / v.videoWidth) * v.videoHeight;
     ctx.drawImage(v, 0, 0, c.width, hratio);
 
-    vc.width = canvasWidth;
+    //vc.width = canvasWidth;
 }
 
 refreshCanvasVideo = () => setInterval(() => {
