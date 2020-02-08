@@ -3,6 +3,11 @@ body {
     font-family: 'Quicksand', sans-serif;
   }
 
+#responsiveCanvas {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
 .imageLink:hover {
   cursor: pointer;
   }

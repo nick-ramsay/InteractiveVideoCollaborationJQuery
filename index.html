@@ -11,7 +11,7 @@
     <title>Interactive Video</title>
 </head>
 
-<body>
+<body onload="initializeCanvas(); refreshCanvasVideo()">
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
         <a class="navbar-brand" href="/"><strong>Interactive Video Collaboration</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -38,7 +38,15 @@
                         controls></video>
                 </div>
             </div>
+            <div className="row mt-1 justify-content-center">
+                <div className="embed-responsive embed-responsive-16by9" id="responsiveCanvas">
+                    <div id="canvasContainer">
+                        <canvas className="embed-responsive-item" width="844px" height="480px" id="myCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
     <footer class="footer bg-custom fixed-bottom">
         <div class="container text-center">
@@ -55,6 +63,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="assets/javascript/video_canvas.js"></script>
     <!--<script src="Assets/MathFunctions.js"></script>
     <script src="Assets/PhysicsSimulation.js"></script>-->
 </body>
