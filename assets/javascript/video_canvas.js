@@ -78,26 +78,33 @@ var state = {
 
 currentSceneCheck = () => {
     for (let i = 0; i < scenes.length; i++) {
-        if (this.state.currentVideoTime >= scenes[i].startTime && this.state.currentVideoTime < scenes[i].endTime) {
+        if (state.currentVideoTime >= scenes[i].startTime && state.currentVideoTime < scenes[i].endTime) {
             this.betweenScenePause();
-            this.setState({ currentSceneIndex: i, currentSceneInfo: scenes[i] })
+            state.currentSceneIndex = i;
+            currentSceneInfo = scenes[i];
+            //this.setState({ currentSceneIndex: i, currentSceneInfo: scenes[i] })
         }
     }
 }
 
 betweenScenePause = () => {
-    console.log(this.state.currentSceneIndex === (scenes.length - 1));
-    if (this.state.currentSceneIndex !== (scenes.length - 1)) {
-        this.setState({ finalScene: false });
+    //console.log(state.currentSceneIndex === (scenes.length - 1));
+    if (state.currentSceneIndex !== (scenes.length - 1)) {
+        state.finalScene = false
+        //this.setState({ finalScene: false });
     }
-    if (this.state.currentVideoTime >= this.state.currentSceneInfo.endTime && this.state.finalScene === false) {
-        this.setState({ sceneBreak: true, videoPlaying: false },
-            () => {
-                if (this.state.currentSceneIndex == (scenes.length - 1)) {
-                    this.setState({ finalScene: true });
+    if (state.currentVideoTime >= state.currentSceneInfo.endTime && state.finalScene === false) {
+       state.sceneBreak = true;
+       state.videoPlaying = false;
+        
+        /*this.setState({ sceneBreak: true, videoPlaying: false },
+            () => {*/
+                if (state.currentSceneIndex == (scenes.length - 1)) {
+                    state.finalScene = true;
+                    //this.setState({ finalScene: true });
                 }
                 v.pause();
-            })
+            //})
     }
 }
 
@@ -139,64 +146,85 @@ refreshCanvasVideo = () => setInterval(() => {
 }, 20);
 
 currentVideoTime = () => {
-    this.setState({ currentVideoTime: v.currentTime })
+    state.currentVideoTime = v.currentTime;
+    //this.setState({ currentVideoTime: v.currentTime })
 }
 
 playVideo = event => {
     event.preventDefault();
 
+    state.videoPlaying = true;
+    state.sceneBreak = false;
+    this.handleVideoControls();
+
+    /*
     this.setState({
         videoPlaying: true,
         sceneBreak: false
     }, () => {
         this.handleVideoControls()
     });
-
+    */
 }
 
 pauseVideo = event => {
     event.preventDefault();
 
+    state.videoPlaying = false;
+    this.handleVideoControls();
+
+    /*
     this.setState({
         videoPlaying: false
     }, () => {
         this.handleVideoControls()
     })
+    */
 
 }
 
 muteVideo = event => {
     event.preventDefault();
 
+    state.videoMuted = true;
+    this.handleVideoControls();
+
+    /*
     this.setState({
         videoMuted: true
     }, () => {
         this.handleVideoControls()
     })
+    */
 }
 
 
 unmuteVideo = event => {
     event.preventDefault();
 
+    state.videoMuted = false;
+    this.handleVideoControls();
+
+    /*
     this.setState({
         videoMuted: false
     }, () => {
         this.handleVideoControls()
     })
+    */
 }
 
 handleVideoControls = () => {
-    if (this.state.videoPlaying) {
+    if (state.videoPlaying) {
         v.play();
     }
-    if (!this.state.videoPlaying) {
+    if (!state.videoPlaying) {
         v.pause();
     }
-    if (this.state.videoMuted) {
+    if (state.videoMuted) {
         v.muted = true;
     }
-    if (!this.state.videoMuted) {
+    if (!state.videoMuted) {
         v.muted = false;
     }
 }
@@ -206,31 +234,55 @@ setVideoSceneTime = event => {
 
     var selectedSceneIndex = event.currentTarget.dataset.sceneIndex;
 
-    this.setState({ sceneBreak: false },
-        () => {
-            v.currentTime = scenes[selectedSceneIndex].startTime;
-            this.setState({ currentSceneInfo: scenes[selectedSceneIndex] },
-                () => {
-                    this.playVideo(event)
-                })
-        })
+    state.sceneBreak = false;
+
+    v.currentTime = scenes[selectedSceneIndex].startTime;
+    state.currentSceneInfo = scenes[selectedSceneIndex];
+
+    this.playVideo(event);
+
+    /*
+        this.setState({ sceneBreak: false },
+            () => {
+                v.currentTime = scenes[selectedSceneIndex].startTime;
+                this.setState({ currentSceneInfo: scenes[selectedSceneIndex] },
+                    () => {
+                        this.playVideo(event)
+                    })
+            })
+        */
 }
 
 setFullScreen = event => {
     event.preventDefault();
+
+    state.fullScreen = true;
+
+    canvasContainer.requestFullscreen();
+    window.screen.orientation.lock("landscape");
+
+    /*
     this.setState({ fullScreen: true }, () => {
         canvasContainer.requestFullscreen();
         window.screen.orientation.lock("landscape");
     });
+    */
 }
 
 exitFullScreen = event => {
     event.preventDefault();
+
+    state.fullScreen = false;
+
+    document.exitFullscreen();
+    window.screen.orientation.unlock();
+
+    /*
     this.setState({ fullScreen: false }, () => {
         document.exitFullscreen();
         window.screen.orientation.unlock();
     }
-    )
+    )*/
 };
 
 playNextScene = event => {
@@ -241,9 +293,18 @@ playNextScene = event => {
 playLastScene = event => {
     event.preventDefault();
 
-    var currentSceneIndex = this.state.currentSceneIndex;
+    var currentSceneIndex = state.currentSceneIndex;
 
-    if (this.state.currentSceneIndex !== 0) {
+    state.currentSceneIndex = (currentSceneIndex - 1)
+    state.currentSceneInfo = scenes[currentSceneIndex - 1];
+    state.currentVideoTime = scenes[currentSceneIndex - 1].startTime;
+    state.sceneBreak = false;
+
+    this.playVideo(event);
+
+
+    if (state.currentSceneIndex !== 0) {
+        /*
         this.setState({
             currentSceneIndex: (currentSceneIndex - 1),
             currentSceneInfo: scenes[currentSceneIndex - 1],
@@ -252,5 +313,13 @@ playLastScene = event => {
         }, () => {
             this.playVideo(event);
         })
+        */
+        state.currentSceneIndex = (currentSceneIndex - 1)
+        state.currentSceneInfo = scenes[currentSceneIndex - 1];
+        state.currentVideoTime = scenes[currentSceneIndex - 1].startTime;
+        state.sceneBreak = false;
+
+        this.playVideo(event);
     }
+
 }
