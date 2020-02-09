@@ -21,17 +21,6 @@ var sceneControllers = {
     width: "100%"
 }
 
-var videoControllers = {
-    position: "absolute",
-    bottom: "0px",
-    color: "white",
-    width: "100%",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    marginBottom: "0px",
-    paddingLeft: "4px",
-    paddingRight: "4px"
-}
-
 var scenes = [
     {
         name: "Scene 1",
@@ -94,17 +83,17 @@ betweenScenePause = () => {
         //this.setState({ finalScene: false });
     }
     if (state.currentVideoTime >= state.currentSceneInfo.endTime && state.finalScene === false) {
-       state.sceneBreak = true;
-       state.videoPlaying = false;
-        
+        state.sceneBreak = true;
+        state.videoPlaying = false;
+
         /*this.setState({ sceneBreak: true, videoPlaying: false },
             () => {*/
-                if (state.currentSceneIndex == (scenes.length - 1)) {
-                    state.finalScene = true;
-                    //this.setState({ finalScene: true });
-                }
-                v.pause();
-            //})
+        if (state.currentSceneIndex == (scenes.length - 1)) {
+            state.finalScene = true;
+            //this.setState({ finalScene: true });
+        }
+        v.pause();
+        //})
     }
 }
 
@@ -112,8 +101,19 @@ initializeCanvas = () => {
     v = document.getElementById("myVideo");
     c = document.getElementById("myCanvas");
     canvasContainer = document.getElementById("canvasContainer");
+
+    //event listeners...
+    document.getElementById("playBtn").addEventListener("click", playVideo);
+    document.getElementById("pauseBtn").addEventListener("click", pauseVideo);
+    document.getElementById("muteBtn").addEventListener("click", muteVideo);
+    document.getElementById("unmuteBtn").addEventListener("click", unmuteVideo);
+    document.getElementById("fullscreenBtn").addEventListener("click", setFullScreen);
+    document.getElementById("exitFullscreenBtn").addEventListener("click", exitFullscreen);
+
     //vc = document.getElementById("videoControllers");
     ctx = c.getContext("2d");
+    ctx.canvas.width = v.videoWidth;
+    ctx.canvas.height = v.videoHeight;
 }
 
 /*componentDidMount() {
@@ -125,17 +125,27 @@ renderVideo = () => {
 
     if (v.currentTime === 0) {
         ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillRect(0, 0, v.videoWidth, v.videoHeight);
+    } else {
+
+        //canvasHeight = v.videoHeight;
+        //canvasWidth = v.videoWidth;
+
+        canvasHeight = window.innerHeight;
+        canvasWidth = window.innerWidth;
+
+        //ctx.canvas.width = window.innerWidth;
+        //ctx.canvas.height = window.innerHeight;
+
+        c.height = v.videoHeight;
+        c.width = v.videoWidth;
+
+        var vratio = (c.width / v.videoHeight) * v.videoWidth;
+        ctx.drawImage(v, 0, 0, vratio, c.height);
+
+        var hratio = (c.width / v.videoWidth) * v.videoHeight;
+        ctx.drawImage(v, 0, 0, c.width, hratio);
     }
-
-    canvasHeight = v.videoHeight;
-    canvasWidth = v.videoWidth;
-
-    var vratio = (c.width / v.videoHeight) * v.videoWidth;
-    ctx.drawImage(v, 0, 0, vratio, c.height);
-    var hratio = (c.width / v.videoWidth) * v.videoHeight;
-    ctx.drawImage(v, 0, 0, c.width, hratio);
-
     //vc.width = canvasWidth;
 }
 
@@ -269,7 +279,7 @@ setFullScreen = event => {
     */
 }
 
-exitFullScreen = event => {
+exitFullscreen = event => {
     event.preventDefault();
 
     state.fullScreen = false;

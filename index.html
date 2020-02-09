@@ -38,10 +38,18 @@
                         controls></video>
                 </div>
             </div>
-            <div className="row mt-1 justify-content-center">
-                <div className="embed-responsive embed-responsive-16by9" id="responsiveCanvas">
+            <div class="row mt-1 justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9" id="responsiveCanvas">
                     <div id="canvasContainer">
-                        <canvas className="embed-responsive-item" width="844px" height="480px" id="myCanvas"></canvas>
+                        <canvas class="embed-responsive-item" id="myCanvas"></canvas>
+                        <div id="videoControllers">
+                            <img class="videoControlIcons float-left" id="playBtn" src="./assets/images/play_icon.png" />
+                            <img class="videoControlIcons float-left" id="pauseBtn" src="./assets/images/pause_icon.png" />
+                            <img class="videoControlIcons float-right" id="fullscreenBtn" src="./assets/images/fullscreen.png" />
+                            <img class="videoControlIcons float-right" id="exitFullscreenBtn" src="./assets/images/fullscreen_exit.png" />
+                            <img class="videoControlIcons float-right" id ="unmuteBtn" src="./assets/images/unmute_icon.png" />
+                            <img class="videoControlIcons float-right" id="muteBtn" src="./assets/images/mute_icon.png" />
+                        </div>
                     </div>
                 </div>
             </div>
