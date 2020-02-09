@@ -47,6 +47,14 @@ var scenes = [
 var canvasContainer;
 var v;
 var c;
+
+var playBtn;
+var pauseBtn;
+var fullscreenBtn;
+var exitFullscreenBtn;
+var muteBtn;
+var unmuteBtn;
+
 var vc; //Video controllers appearing on the canvas
 var c1;
 var ctx;
@@ -62,7 +70,8 @@ var state = {
     sceneBreak: false,
     currentVideoTime: 0.00,
     currentSceneIndex: 0,
-    currentSceneInfo: scenes[0]
+    currentSceneInfo: scenes[0],
+    fullscreen: false
 }
 
 currentSceneCheck = () => {
@@ -98,45 +107,61 @@ betweenScenePause = () => {
 }
 
 initializeCanvas = () => {
+
     v = document.getElementById("myVideo");
     c = document.getElementById("myCanvas");
+    vc = document.getElementById("videoControllers");
+
+    playBtn = document.getElementById("playBtn");
+    pauseBtn = document.getElementById("pauseBtn");
+    muteBtn = document.getElementById("muteBtn");
+    unmuteBtn = document.getElementById("unmuteBtn");
+    fullscreenBtn = document.getElementById("fullscreenBtn");
+    exitFullscreenBtn = document.getElementById("exitFullscreenBtn");
     canvasContainer = document.getElementById("canvasContainer");
 
     //event listeners...
-    document.getElementById("playBtn").addEventListener("click", playVideo);
-    document.getElementById("pauseBtn").addEventListener("click", pauseVideo);
-    document.getElementById("muteBtn").addEventListener("click", muteVideo);
-    document.getElementById("unmuteBtn").addEventListener("click", unmuteVideo);
-    document.getElementById("fullscreenBtn").addEventListener("click", setFullScreen);
-    document.getElementById("exitFullscreenBtn").addEventListener("click", exitFullscreen);
+    playBtn.addEventListener("click", playVideo);
+    pauseBtn.addEventListener("click", pauseVideo);
+    muteBtn.addEventListener("click", muteVideo);
+    unmuteBtn.addEventListener("click", unmuteVideo);
+    fullscreenBtn.addEventListener("click", setFullScreen);
+    exitFullscreenBtn.addEventListener("click", exitFullscreen);
 
-    //vc = document.getElementById("videoControllers");
+    
     ctx = c.getContext("2d");
     ctx.canvas.width = v.videoWidth;
     ctx.canvas.height = v.videoHeight;
 }
 
-/*componentDidMount() {
-    this.initializeCanvas();
-    this.refreshCanvasVideo();
-}*/
+showHideBtns = () => {
+    if (state.videoPlaying) {
+        playBtn.style.display = "none";
+        pauseBtn.style.display = "block";
+    } if (!state.videoPlaying) {
+        playBtn.style.display = "block";
+        pauseBtn.style.display = "none";
+    } if (state.videoMuted) {
+        muteBtn.style.display = "none";
+        unmuteBtn.style.display = "block";
+    } if (!state.videoMuted) {
+        muteBtn.style.display = "block";
+        unmuteBtn.style.display = "none";
+    } if (state.fullscreen) {
+        fullscreenBtn.style.display = "none";
+        exitFullscreenBtn.style.display = "block";
+    } if (!state.fullscreen) {
+        fullscreenBtn.style.display = "block";
+        exitFullscreenBtn.style.display = "none";
+    }
+}
 
 renderVideo = () => {
-
+    this.showHideBtns();
     if (v.currentTime === 0) {
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, v.videoWidth, v.videoHeight);
     } else {
-
-        //canvasHeight = v.videoHeight;
-        //canvasWidth = v.videoWidth;
-
-        canvasHeight = window.innerHeight;
-        canvasWidth = window.innerWidth;
-
-        //ctx.canvas.width = window.innerWidth;
-        //ctx.canvas.height = window.innerHeight;
-
         c.height = v.videoHeight;
         c.width = v.videoWidth;
 
@@ -146,7 +171,6 @@ renderVideo = () => {
         var hratio = (c.width / v.videoWidth) * v.videoHeight;
         ctx.drawImage(v, 0, 0, c.width, hratio);
     }
-    //vc.width = canvasWidth;
 }
 
 refreshCanvasVideo = () => setInterval(() => {
@@ -157,24 +181,13 @@ refreshCanvasVideo = () => setInterval(() => {
 
 currentVideoTime = () => {
     state.currentVideoTime = v.currentTime;
-    //this.setState({ currentVideoTime: v.currentTime })
 }
 
 playVideo = event => {
     event.preventDefault();
-
     state.videoPlaying = true;
     state.sceneBreak = false;
     this.handleVideoControls();
-
-    /*
-    this.setState({
-        videoPlaying: true,
-        sceneBreak: false
-    }, () => {
-        this.handleVideoControls()
-    });
-    */
 }
 
 pauseVideo = event => {
@@ -182,14 +195,6 @@ pauseVideo = event => {
 
     state.videoPlaying = false;
     this.handleVideoControls();
-
-    /*
-    this.setState({
-        videoPlaying: false
-    }, () => {
-        this.handleVideoControls()
-    })
-    */
 
 }
 
@@ -199,13 +204,6 @@ muteVideo = event => {
     state.videoMuted = true;
     this.handleVideoControls();
 
-    /*
-    this.setState({
-        videoMuted: true
-    }, () => {
-        this.handleVideoControls()
-    })
-    */
 }
 
 
@@ -215,13 +213,6 @@ unmuteVideo = event => {
     state.videoMuted = false;
     this.handleVideoControls();
 
-    /*
-    this.setState({
-        videoMuted: false
-    }, () => {
-        this.handleVideoControls()
-    })
-    */
 }
 
 handleVideoControls = () => {
@@ -250,49 +241,23 @@ setVideoSceneTime = event => {
     state.currentSceneInfo = scenes[selectedSceneIndex];
 
     this.playVideo(event);
-
-    /*
-        this.setState({ sceneBreak: false },
-            () => {
-                v.currentTime = scenes[selectedSceneIndex].startTime;
-                this.setState({ currentSceneInfo: scenes[selectedSceneIndex] },
-                    () => {
-                        this.playVideo(event)
-                    })
-            })
-        */
 }
 
 setFullScreen = event => {
     event.preventDefault();
 
-    state.fullScreen = true;
+    state.fullscreen = true;
 
     canvasContainer.requestFullscreen();
     window.screen.orientation.lock("landscape");
 
-    /*
-    this.setState({ fullScreen: true }, () => {
-        canvasContainer.requestFullscreen();
-        window.screen.orientation.lock("landscape");
-    });
-    */
 }
 
 exitFullscreen = event => {
     event.preventDefault();
-
-    state.fullScreen = false;
-
+    state.fullscreen = false;
     document.exitFullscreen();
     window.screen.orientation.unlock();
-
-    /*
-    this.setState({ fullScreen: false }, () => {
-        document.exitFullscreen();
-        window.screen.orientation.unlock();
-    }
-    )*/
 };
 
 playNextScene = event => {
