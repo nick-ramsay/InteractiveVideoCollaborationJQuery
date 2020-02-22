@@ -99,10 +99,10 @@ betweenScenePause = () => {
     }
 }
 
-initializeCanvas = () => {
+initializeVideoCanvas = () => {
 
-    v = document.getElementById("myVideo");
-    c = document.getElementById("videoCanvas");
+    v = document.getElementById("my-video");
+    c = document.getElementById("video-canvas");
     vc = document.getElementById("videoControllers");
 
     playBtn = document.getElementById("playBtn");

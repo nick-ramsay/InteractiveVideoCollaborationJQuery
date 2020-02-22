@@ -11,7 +11,7 @@
     <title>Interactive Video</title>
 </head>
 
-<body onload="initializeCanvas(); refreshCanvasVideo(); prepare()">
+<body onload="initializeVideoCanvas(); initializeSimulationCanvas(); refreshCanvasVideo()">
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
         <a class="navbar-brand" href="/"><strong>Interactive Video Collaboration</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -21,11 +21,6 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="./index.html">Home</a>
-                <!--
-                <a class="nav-item nav-link" href="/video-one">Video One</a>
-                <a class="nav-item nav-link" href="/video-timer">Video Timer</a>
-                <a class="nav-item nav-link" href="/about">About</a>
-                -->
             </div>
         </div>
     </nav>
@@ -34,22 +29,23 @@
             <h1><strong>Video One</strong></h1>
             <div class="row pb-1">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <video class="embed-responsive-item" id="myVideo" src="./assets/2DOFSpringMassSystemProof.mp4"
+                    <video class="embed-responsive-item" id="my-video" src="./assets/2DOFSpringMassSystemProof.mp4"
                         controls></video>
                 </div>
             </div>
             <div class="row mt-1 justify-content-center">
                 <div class="embed-responsive embed-responsive-16by9" id="responsiveCanvas">
                     <div id="canvasContainer">
-                        <canvas class="embed-responsive-item" id="videoCanvas"></canvas>
-                        <div id="videoControllers">
-                            <img class="videoControlIcons float-left" id="playBtn" src="./assets/images/play_icon.png" />
-                            <img class="videoControlIcons float-left" id="pauseBtn" src="./assets/images/pause_icon.png" />
-                            <img class="videoControlIcons float-right" id="fullscreenBtn" src="./assets/images/fullscreen.png" />
-                            <img class="videoControlIcons float-right" id="exitFullscreenBtn" src="./assets/images/fullscreen_exit.png" />
-                            <img class="videoControlIcons float-right" id ="unmuteBtn" src="./assets/images/unmute_icon.png" />
-                            <img class="videoControlIcons float-right" id="muteBtn" src="./assets/images/mute_icon.png" />
-                        </div>
+                        <canvas class="embed-responsive-item" id="video-canvas"></canvas>
+                        <canvas class="embed-responsive-item" id="simulation-canvas"></canvas>
+                    </div>
+                    <div id="videoControllers">
+                        <img class="videoControlIcons float-left" id="playBtn" src="./assets/images/play_icon.png" />
+                        <img class="videoControlIcons float-left" id="pauseBtn" src="./assets/images/pause_icon.png" />
+                        <img class="videoControlIcons float-right" id="fullscreenBtn" src="./assets/images/fullscreen.png" />
+                        <img class="videoControlIcons float-right" id="exitFullscreenBtn" src="./assets/images/fullscreen_exit.png" />
+                        <img class="videoControlIcons float-right" id ="unmuteBtn" src="./assets/images/unmute_icon.png" />
+                        <img class="videoControlIcons float-right" id="muteBtn" src="./assets/images/mute_icon.png" />
                     </div>
                 </div>
             </div>
@@ -72,6 +68,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="assets/javascript/video_canvas.js"></script>
+    <script src="assets/javascript/simulation_canvas.js"></script>
 </body>
 
 </html>
