@@ -80,36 +80,29 @@ currentSceneCheck = () => {
             this.betweenScenePause();
             state.currentSceneIndex = i;
             currentSceneInfo = scenes[i];
-            //this.setState({ currentSceneIndex: i, currentSceneInfo: scenes[i] })
         }
     }
 }
 
 betweenScenePause = () => {
-    //console.log(state.currentSceneIndex === (scenes.length - 1));
     if (state.currentSceneIndex !== (scenes.length - 1)) {
-        state.finalScene = false
-        //this.setState({ finalScene: false });
+        state.finalScene = false;
     }
     if (state.currentVideoTime >= state.currentSceneInfo.endTime && state.finalScene === false) {
         state.sceneBreak = true;
         state.videoPlaying = false;
 
-        /*this.setState({ sceneBreak: true, videoPlaying: false },
-            () => {*/
         if (state.currentSceneIndex == (scenes.length - 1)) {
             state.finalScene = true;
-            //this.setState({ finalScene: true });
         }
         v.pause();
-        //})
     }
 }
 
 initializeCanvas = () => {
 
     v = document.getElementById("myVideo");
-    c = document.getElementById("myCanvas");
+    c = document.getElementById("videoCanvas");
     vc = document.getElementById("videoControllers");
 
     playBtn = document.getElementById("playBtn");
@@ -128,7 +121,7 @@ initializeCanvas = () => {
     fullscreenBtn.addEventListener("click", setFullScreen);
     exitFullscreenBtn.addEventListener("click", exitFullscreen);
 
-    
+
     ctx = c.getContext("2d");
     ctx.canvas.width = v.videoWidth;
     ctx.canvas.height = v.videoHeight;
@@ -279,22 +272,10 @@ playLastScene = event => {
 
 
     if (state.currentSceneIndex !== 0) {
-        /*
-        this.setState({
-            currentSceneIndex: (currentSceneIndex - 1),
-            currentSceneInfo: scenes[currentSceneIndex - 1],
-            currentVideoTime: scenes[currentSceneIndex - 1].startTime,
-            sceneBreak: false
-        }, () => {
-            this.playVideo(event);
-        })
-        */
         state.currentSceneIndex = (currentSceneIndex - 1)
         state.currentSceneInfo = scenes[currentSceneIndex - 1];
         state.currentVideoTime = scenes[currentSceneIndex - 1].startTime;
         state.sceneBreak = false;
-
         this.playVideo(event);
     }
-
 }
