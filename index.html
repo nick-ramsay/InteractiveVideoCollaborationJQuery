@@ -11,7 +11,7 @@
     <title>Interactive Video</title>
 </head>
 
-<body onload="initializeVideoCanvas(); initializeSimulationCanvas(); refreshCanvasVideo()">
+<body onload="initializeVideoCanvas(); initializeSimulationCanvas(); refreshCanvasVideo(); prepare()">
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
         <a class="navbar-brand" href="/"><strong>Interactive Video Collaboration</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -42,15 +42,23 @@
                     <div id="videoControllers">
                         <img class="videoControlIcons float-left" id="playBtn" src="./assets/images/play_icon.png" />
                         <img class="videoControlIcons float-left" id="pauseBtn" src="./assets/images/pause_icon.png" />
-                        <img class="videoControlIcons float-right" id="fullscreenBtn" src="./assets/images/fullscreen.png" />
-                        <img class="videoControlIcons float-right" id="exitFullscreenBtn" src="./assets/images/fullscreen_exit.png" />
-                        <img class="videoControlIcons float-right" id ="unmuteBtn" src="./assets/images/unmute_icon.png" />
+                        <img class="videoControlIcons float-right" id="fullscreenBtn"
+                            src="./assets/images/fullscreen.png" />
+                        <img class="videoControlIcons float-right" id="exitFullscreenBtn"
+                            src="./assets/images/fullscreen_exit.png" />
+                        <img class="videoControlIcons float-right" id="unmuteBtn"
+                            src="./assets/images/unmute_icon.png" />
                         <img class="videoControlIcons float-right" id="muteBtn" src="./assets/images/mute_icon.png" />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        < <div class="col-md-12 my-5 text-center canvasContainer">
+            <h1><strong>Simulation One</strong></h1>
+            <div class="row mt-1 justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9" id="responsiveCanvas">
+                </div>
+            </div>
     </div>
     <footer class="footer bg-custom fixed-bottom">
         <div class="container text-center">
@@ -69,6 +77,9 @@
         crossorigin="anonymous"></script>
     <script src="assets/javascript/video_canvas.js"></script>
     <script src="assets/javascript/simulation_canvas.js"></script>
+    <script src="assets/javascript/math_functions.js"></script>
+    <script src="assets/javascript/physics_simulation.js"></script>
+
 </body>
 
 </html>
