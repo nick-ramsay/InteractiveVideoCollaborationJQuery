@@ -1,26 +1,5 @@
-var responsiveCanvas = {
-    marginBottom: "0px",
-    paddingBottom: "0px",
-}
 
-var sceneArrowsContainer = {
-    position: "absolute",
-    top: "50%",
-    marginTop: "0px",
-    width: "100%"
-}
-
-var sceneArrows = {
-    backgroundColor: "gold"
-}
-
-var sceneControllers = {
-    position: "absolute",
-    bottom: "40px",
-    marginBottom: "0px",
-    width: "100%"
-}
-
+//Start: Objects used to define seconds when one scene begins and another ends
 var scenes = [
     {
         name: "Scene 1",
@@ -44,7 +23,10 @@ var scenes = [
     }
 ]
 
+//End: Scene definition object...
+
 var canvasContainer;
+var responsiveCanvas;
 var v;
 var c;
 
@@ -112,6 +94,7 @@ initializeVideoCanvas = () => {
     fullscreenBtn = document.getElementById("fullscreenBtn");
     exitFullscreenBtn = document.getElementById("exitFullscreenBtn");
     canvasContainer = document.getElementById("canvasContainer");
+    responsiveCanvas = document.getElementById("responsiveCanvas");
 
     //event listeners...
     playBtn.addEventListener("click", playVideo);
@@ -169,7 +152,7 @@ renderVideo = () => {
 refreshCanvasVideo = () => setInterval(() => {
     this.renderVideo();
     this.currentVideoTime();
-    this.currentSceneCheck();
+    //this.currentSceneCheck(); // Disabled scene check logic so that video doesn't pause at end of each scene
 }, 20);
 
 currentVideoTime = () => {
@@ -241,7 +224,7 @@ setFullScreen = event => {
 
     state.fullscreen = true;
 
-    canvasContainer.requestFullscreen();
+    responsiveCanvas.requestFullscreen();
     window.screen.orientation.lock("landscape");
 
 }
